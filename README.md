@@ -16,6 +16,12 @@ be exported with one click to a number of platforms, including the major desktop
 platforms (Linux, macOS, Windows), mobile platforms (Android, iOS), as well as
 Web-based platforms and [consoles](https://docs.godotengine.org/en/latest/tutorials/platform/consoles.html).
 
+## Changes in this fork
+
+This fork contains changes from multiple sources. Some of these are PRs that were not merged as of yet. Changes are as follows:
+
+- Allow specifying a key when loading resource packs ([Proposal 9726](https://github.com/godotengine/godot-proposals/issues/9726), [PR 91884](https://github.com/godotengine/godot/pull/91884)) by @basicer (Rob Blanckaert)
+
 ## Free, open source and community-driven
 
 Godot is completely free and open source under the very permissive [MIT license](https://godotengine.org/license).
