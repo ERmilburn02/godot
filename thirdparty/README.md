@@ -614,7 +614,7 @@ to solve some MSVC warnings. See the patches in the `patches` directory.
 ## miniupnpc
 
 - Upstream: https://github.com/miniupnp/miniupnp
-- Version: 2.2.7 (d4d5ec7d48c093b37b2ea5d7171ede21ce9d7ff2, 2024)
+- Version: 2.2.8 (b55145ec095652289a59c33603f3abafee898273, 2024)
 - License: BSD-3-Clause
 
 Files extracted from upstream source:
@@ -757,7 +757,7 @@ with the provided patch.
 ## openxr
 
 - Upstream: https://github.com/KhronosGroup/OpenXR-SDK
-- Version: 1.1.38 (f90488c4fb1537f4256d09d4a4d3ad5543ebaf24, 2024)
+- Version: 1.1.41 (7d1c0961351bac61fd7bb72d402649d5ac3f2935, 2024)
 - License: Apache 2.0
 
 Files extracted from upstream source:
