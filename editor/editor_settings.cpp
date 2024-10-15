@@ -221,7 +221,6 @@ bool EditorSettings::_get(const StringName &p_name, Variant &r_ret) const {
 
 	const VariantContainer *v = props.getptr(p_name);
 	if (!v) {
-		WARN_PRINT("EditorSettings::_get - Property not found: " + String(p_name));
 		return false;
 	}
 	r_ret = v->variant;
@@ -601,6 +600,10 @@ void EditorSettings::_load_defaults(Ref<ConfigFile> p_extra_config) {
 	_initial_set("filesystem/file_dialog/show_hidden_files", false);
 	EDITOR_SETTING(Variant::INT, PROPERTY_HINT_ENUM, "filesystem/file_dialog/display_mode", 0, "Thumbnails,List")
 	EDITOR_SETTING(Variant::INT, PROPERTY_HINT_RANGE, "filesystem/file_dialog/thumbnail_size", 64, "32,128,16")
+
+	// Quick Open dialog
+	_initial_set("filesystem/quick_open_dialog/include_addons", false);
+	EDITOR_SETTING(Variant::INT, PROPERTY_HINT_ENUM, "filesystem/quick_open_dialog/default_display_mode", 0, "Adaptive,Last Used")
 
 	// Import (for glft module)
 	EDITOR_SETTING_USAGE(Variant::STRING, PROPERTY_HINT_GLOBAL_FILE, "filesystem/import/blender/blender_path", "", "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_RESTART_IF_CHANGED | PROPERTY_USAGE_EDITOR_BASIC_SETTING)
@@ -1421,24 +1424,20 @@ Variant _EDITOR_GET(const String &p_setting) {
 }
 
 bool EditorSettings::_property_can_revert(const StringName &p_name) const {
-	if (!props.has(p_name)) {
-		return false;
+	const VariantContainer *property = props.getptr(p_name);
+	if (property) {
+		return property->has_default_value;
 	}
-
-	if (!props[p_name].has_default_value) {
-		return false;
-	}
-
-	return props[p_name].initial != props[p_name].variant;
+	return false;
 }
 
 bool EditorSettings::_property_get_revert(const StringName &p_name, Variant &r_property) const {
-	if (!props.has(p_name) || !props[p_name].has_default_value) {
-		return false;
+	const VariantContainer *value = props.getptr(p_name);
+	if (value && value->has_default_value) {
+		r_property = value->initial;
+		return true;
 	}
-
-	r_property = props[p_name].initial;
-	return true;
+	return false;
 }
 
 void EditorSettings::add_property_hint(const PropertyInfo &p_hint) {

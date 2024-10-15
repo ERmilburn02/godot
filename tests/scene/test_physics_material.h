@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  editor_quick_open.h                                                   */
+/*  test_physics_material.h                                               */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                             GODOT ENGINE                               */
@@ -28,62 +28,80 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef EDITOR_QUICK_OPEN_H
-#define EDITOR_QUICK_OPEN_H
+#ifndef TEST_PHYSICS_MATERIAL_H
+#define TEST_PHYSICS_MATERIAL_H
 
-#include "core/templates/oa_hash_map.h"
-#include "editor/editor_file_system.h"
-#include "scene/gui/dialogs.h"
-#include "scene/gui/tree.h"
+#include "scene/resources/physics_material.h"
+#include "tests/test_macros.h"
 
-class EditorQuickOpen : public ConfirmationDialog {
-	GDCLASS(EditorQuickOpen, ConfirmationDialog);
+namespace TestPhysics_material {
 
-	static Rect2i prev_rect;
-	static bool was_showed;
+TEST_CASE("[Physics_material] Defaults") {
+	Ref<PhysicsMaterial> physics_material;
+	physics_material.instantiate();
 
-	LineEdit *search_box = nullptr;
-	Tree *search_options = nullptr;
-	String base_type;
-	bool allow_multi_select = false;
+	CHECK(physics_material->get_friction() == 1.);
+	CHECK(physics_material->is_rough() == false);
+	CHECK(physics_material->get_bounce() == 0.);
+	CHECK(physics_material->is_absorbent() == false);
+}
 
-	Vector<String> files;
-	OAHashMap<String, Ref<Texture2D>> icons;
+TEST_CASE("[Physics_material] Friction") {
+	Ref<PhysicsMaterial> physics_material;
+	physics_material.instantiate();
 
-	struct Entry {
-		String path;
-		float score = 0;
-	};
+	real_t friction = 0.314;
+	physics_material->set_friction(friction);
+	CHECK(physics_material->get_friction() == friction);
+}
 
-	struct EntryComparator {
-		_FORCE_INLINE_ bool operator()(const Entry &A, const Entry &B) const {
-			return A.score > B.score;
-		}
-	};
+TEST_CASE("[Physics_material] Rough") {
+	Ref<PhysicsMaterial> physics_material;
+	physics_material.instantiate();
 
-	void _update_search();
-	void _build_search_cache(EditorFileSystemDirectory *p_efsd);
-	float _score_search_result(const PackedStringArray &p_search_tokens, const String &p_path);
+	bool rough = true;
+	physics_material->set_rough(rough);
+	CHECK(physics_material->is_rough() == rough);
 
-	void _confirmed();
-	virtual void cancel_pressed() override;
-	void _cleanup();
+	real_t friction = 0.314;
+	physics_material->set_friction(friction);
+	CHECK(physics_material->computed_friction() == -friction);
 
-	void _sbox_input(const Ref<InputEvent> &p_event);
-	void _text_changed(const String &p_newtext);
+	rough = false;
+	physics_material->set_rough(rough);
+	CHECK(physics_material->is_rough() == rough);
 
-protected:
-	void _notification(int p_what);
-	static void _bind_methods();
+	CHECK(physics_material->computed_friction() == friction);
+}
 
-public:
-	String get_base_type() const;
+TEST_CASE("[Physics_material] Bounce") {
+	Ref<PhysicsMaterial> physics_material;
+	physics_material.instantiate();
 
-	String get_selected() const;
-	Vector<String> get_selected_files() const;
+	real_t bounce = 0.271;
+	physics_material->set_bounce(bounce);
+	CHECK(physics_material->get_bounce() == bounce);
+}
 
-	void popup_dialog(const String &p_base, bool p_enable_multi = false, bool p_dontclear = false);
-	EditorQuickOpen();
-};
+TEST_CASE("[Physics_material] Absorbent") {
+	Ref<PhysicsMaterial> physics_material;
+	physics_material.instantiate();
 
-#endif // EDITOR_QUICK_OPEN_H
+	bool absorbent = true;
+	physics_material->set_absorbent(absorbent);
+	CHECK(physics_material->is_absorbent() == absorbent);
+
+	real_t bounce = 0.271;
+	physics_material->set_bounce(bounce);
+	CHECK(physics_material->computed_bounce() == -bounce);
+
+	absorbent = false;
+	physics_material->set_absorbent(absorbent);
+	CHECK(physics_material->is_absorbent() == absorbent);
+
+	CHECK(physics_material->computed_bounce() == bounce);
+}
+
+} // namespace TestPhysics_material
+
+#endif // TEST_PHYSICS_MATERIAL_H
