@@ -1,5 +1,7 @@
 @echo off
 
+cd /d "%~dp0\.."
+
 set MESA_LIBS=D:/Dev/godot_optional_extras/nir
 set ANGLE_LIBS=D:/Dev/godot_optional_extras/angle
 set LOG_FILE=build.log
