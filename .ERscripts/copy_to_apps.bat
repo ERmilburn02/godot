@@ -61,13 +61,24 @@ IF NOT EXIST "bin\godot.windows.template_release.x86_64.exe" (
 @REM Also rename the templates to how Godot expects them
 @REM PLATFORM_CONFIG_ARCH.console.exe
 
-xcopy /s /y bin\godot.windows.editor.x86_64.console.exe "%out_bin_dir%\godot.windows.editor.x86_64.console.exe"
-xcopy /s /y bin\godot.windows.editor.x86_64.exe "%out_bin_dir%\godot.windows.editor.x86_64.exe"
+@REM xcopy /s /y bin\godot.windows.editor.x86_64.console.exe "%out_bin_dir%\godot.windows.editor.x86_64.console.exe"
+@REM xcopy /s /y bin\godot.windows.editor.x86_64.exe "%out_bin_dir%\godot.windows.editor.x86_64.exe"
 
-xcopy /s /y bin\godot.windows.template_debug.x86_64.console.exe "%out_template_dir%\windows_debug_x86_64.console.exe"
-xcopy /s /y bin\godot.windows.template_debug.x86_64.exe "%out_template_dir%\windows_debug_x86_64.exe"
+@REM xcopy /s /y bin\godot.windows.template_debug.x86_64.console.exe "%out_template_dir%\windows_debug_x86_64.console.exe"
+@REM xcopy /s /y bin\godot.windows.template_debug.x86_64.exe "%out_template_dir%\windows_debug_x86_64.exe"
 
-xcopy /s /y bin\godot.windows.template_release.x86_64.console.exe "%out_template_dir%\windows_release_x86_64.console.exe"
-xcopy /s /y bin\godot.windows.template_release.x86_64.exe "%out_template_dir%\windows_release_x86_64.exe"
+@REM xcopy /s /y bin\godot.windows.template_release.x86_64.console.exe "%out_template_dir%\windows_release_x86_64.console.exe"
+@REM xcopy /s /y bin\godot.windows.template_release.x86_64.exe "%out_template_dir%\windows_release_x86_64.exe"
+
+@REM Replace with regular copy
+
+copy /y bin\godot.windows.editor.x86_64.console.exe "%out_bin_dir%\godot.windows.editor.x86_64.console.exe"
+copy /y bin\godot.windows.editor.x86_64.exe "%out_bin_dir%\godot.windows.editor.x86_64.exe"
+
+copy /y bin\godot.windows.template_debug.x86_64.console.exe "%out_template_dir%\windows_debug_x86_64.console.exe"
+copy /y bin\godot.windows.template_debug.x86_64.exe "%out_template_dir%\windows_debug_x86_64.exe"
+
+copy /y bin\godot.windows.template_release.x86_64.console.exe "%out_template_dir%\windows_release_x86_64.console.exe"
+copy /y bin\godot.windows.template_release.x86_64.exe "%out_template_dir%\windows_release_x86_64.exe"
 
 pause
