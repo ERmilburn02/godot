@@ -1,5 +1,5 @@
-short_name = "godot-ermil"
-name = "Godot Engine ERmil Fork"
+short_name = "godot"
+name = "Godot Engine"
 major = 4
 minor = 4
 patch = 0
